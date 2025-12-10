@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
 {
     Schema::create('guru', function (Blueprint $table) {
-        $table->id('id_guru');                         // Primary Key
-        $table->string('nama');                        // Nama guru
-        $table->string('nip')->unique();               // NIP (unik)
-        $table->string('pangkat')->nullable();         // Pangkat
-        $table->string('golongan')->nullable();        // Golongan
-        $table->string('jabatan')->nullable();         // Jabatan
-        $table->integer('jumlah_jam_mengajar')->default(0); // Jam mengajar
+        $table->id('id_guru');
+        $table->string('nama');
+        $table->string('nip')->unique();
+        $table->string('pangkat')->nullable();
+        $table->string('golongan')->nullable();
+        $table->string('jabatan')->nullable();
+        $table->integer('jumlah_jam_mengajar')->default(0);
         $table->timestamps();
     });
 }
