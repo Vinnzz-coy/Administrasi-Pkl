@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
 {
     Schema::create('dudi', function (Blueprint $table) {
-        $table->id('id_dudi');       // Primary key
-        $table->string('nama');       // Nama DU/DI
-        $table->text('alamat');       // Alamat DU/DI
-        $table->string('pimpinan');   // Pimpinan DU/DI
-        $table->string('pembimbing'); // Pembimbing dari perusahaan
-        $table->string('jabatan');    // Jabatan pembimbing/pimpinan
-        $table->integer('daya_tampung'); // Kapasitas siswa yang diterima
+        $table->id('id_dudi');
+        $table->string('nama');
+        $table->text('alamat');
+        $table->string('pimpinan');
+        $table->string('pembimbing');
+        $table->string('jabatan');
+        $table->integer('daya_tampung'); 
         $table->timestamps();
     });
 }
