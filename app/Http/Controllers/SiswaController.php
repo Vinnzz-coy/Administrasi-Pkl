@@ -14,9 +14,9 @@ class SiswaController extends Controller
 
         // Buat dummy statistik
         $total   = Siswa::count();
-        $aktif   = 12;  // dummy
-        $pending = 3;   // dummy
-        $selesai = 5;   // dummy
+        $aktif   = 12;
+        $pending = 3;
+        $selesai = 5;
 
         return view('siswa', compact('total', 'aktif', 'pending', 'selesai', 'siswa'));
     }
