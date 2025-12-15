@@ -77,7 +77,7 @@ Salin file lingkungan contoh (`.env.example`) untuk membuat file konfigurasi (`.
 cp .env.example .env
 
 # Untuk Windows
-# copy .env.example .env
+copy .env.example .env
 ```
 
 #### 4\. Penyesuaian Database
