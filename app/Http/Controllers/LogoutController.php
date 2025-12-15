@@ -21,6 +21,6 @@ class LogoutController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/auth/login'); // Arahkan kembali ke halaman utama atau login
+        return redirect('/login');
     }
 }

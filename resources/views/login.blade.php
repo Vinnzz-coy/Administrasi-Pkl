@@ -6,33 +6,32 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Login - Administrasi PKL</title>
 
-    @vite(['resources/css/auth.css', 'resources/js/auth.js'])
+    @vite(['resources/css/login.css', 'resources/js/login.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="auth-container">
         <div class="login-card">
-            <!-- Logo Section -->
             <div class="logo-section">
                 <div class="logo-container">
-                    <img src="{{ asset('logo-smk.webp') }}" alt="Logo SMK" class="logo-img">
+                    <img src="{{ asset('asset/logo-smk.webp') }}" alt="Logo SMK" class="logo-img">
                 </div>
             </div>
 
-            <!-- Header Section -->
             <div class="header-section">
                 <h1 class="login-title">Login</h1>
                 <p class="login-subtitle">untuk masuk ke akun Anda</p>
             </div>
 
-            <!-- Alert Section -->
             <div id="alert-container" class="alert-container"></div>
 
-            <!-- Form Section -->
-            <form id="loginForm" class="login-form">
+            <form
+                id="loginForm"
+                class="login-form"
+                method="POST"
+                action="{{ route('login') }}">
                 @csrf
 
-                <!-- NIP Field -->
                 <div class="form-group">
                     <div class="input-wrapper">
                         <input
@@ -51,7 +50,6 @@
                     <span class="error-message" id="nip-error"></span>
                 </div>
 
-                <!-- Password Field -->
                 <div class="form-group">
                     <div class="input-wrapper password-wrapper">
                         <input
@@ -71,7 +69,6 @@
                     <span class="error-message" id="password-error"></span>
                 </div>
 
-                <!-- Submit Button -->
                 <div class="form-group form-group-submit">
                     <button type="submit" class="btn-submit" id="submitBtn">
                         <span class="btn-text">Login</span>
