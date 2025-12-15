@@ -231,26 +231,34 @@
             <div class="p-6 border-b">
                 <div class="flex items-center cursor-pointer" id="profile-toggle">
                     <div class="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center overflow-hidden border-2 border-white shadow">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Admin" class="w-full h-full object-cover">
+                        <img src="{{ Auth::user()->profile_photo_url ?? 'https://randomuser.me/api/portraits/men/32.jpg' }}"
+                         alt="Admin" class="w-full h-full object-cover">
                     </div>
                     <div class="ml-4">
-                        <h3 class="font-semibold text-dark">Budi Santoso, S.Pd</h3>
-                        <p class="text-gray-500 text-sm">Admin PKL</p>
+                        <h3 class="font-semibold text-dark">{{ Auth::user()->guru?->nama??'Pengguna'}}</h3>
+                        <p class="text-gray-500 text-sm">{{Auth::user()->guru?->jabatan ?? 'Administrator'}}</p>
                     </div>
                     <i class="fas fa-chevron-down text-gray-400 ml-auto transition-transform duration-300" id="profile-chevron"></i>
                 </div>
 
                 <!-- Menu Profile (hidden by default) -->
                 <div class="mt-4 hidden animate-slide-down" id="profile-menu">
-                    <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-100 text-gray-700 transition-colors duration-200">
+                    <a href="{{ route('pengaturan.profile.index') }}" class="block py-2 px-4 rounded-lg hover:bg-gray-100 text-gray-700 transition-colors duration-200">
                         <i class="fas fa-user-circle mr-3 text-primary"></i> Profil Saya
                     </a>
-                    <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-100 text-gray-700 transition-colors duration-200">
+                    <a href="{{ route('pengaturan.akun.index') }}" class="block py-2 px-4 rounded-lg hover:bg-gray-100 text-gray-700 transition-colors duration-200">
                         <i class="fas fa-cog mr-3 text-primary"></i> Pengaturan Akun
                     </a>
-                    <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-100 text-gray-700 transition-colors duration-200">
+                    <a href="#" 
+                        class="block py-2 px-4 rounded-lg hover:bg-gray-100 text-gray-700 transition-colors duration-200"
+                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+>
                         <i class="fas fa-sign-out-alt mr-3 text-primary"></i> Keluar
                     </a>
+
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    @csrf
+</form>
                 </div>
             </div>
 
@@ -258,7 +266,7 @@
             <nav class="flex-1 p-4 overflow-y-auto">
                 <ul class="space-y-2">
                     <li>
-                        <a href="#" class="flex items-center py-3 px-4 rounded-lg active-menu transition-all duration-200">
+                        <a href="{{ route('dashboard') }}" class="flex items-center py-3 px-4 rounded-lg active-menu transition-all duration-200">
                             <i class="fas fa-tachometer-alt text-primary mr-3"></i>
                             <span>Dashboard</span>
                         </a>
@@ -351,7 +359,7 @@
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                             <div class="mb-4 md:mb-0">
                                 <h1 class="text-3xl md:text-4xl font-bold mb-2">Dashboard PKL</h1>
-                                <p class="text-blue-100 text-lg">Selamat datang, <span class="font-semibold">Budi Santoso, S.Pd</span>! Kelola data peserta PKL dengan mudah dan efisien.</p>
+                                <p class="text-blue-100 text-lg">Selamat datang, <span class="font-semibold">{{  Auth::user()->guru?->nama??'Pengguna'}}</span>! Kelola data peserta PKL dengan mudah dan efisien.</p>
                             </div>
                             <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center md:text-right animate-float">
                                 <p class="text-sm text-blue-100">Hari ini</p>

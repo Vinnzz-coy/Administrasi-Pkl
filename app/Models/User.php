@@ -6,9 +6,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Guru;
 class User extends Authenticatable
 {
+    protected $primaryKey = 'id_user';
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -19,9 +21,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'nip',
         'email',
         'password',
     ];
+    
 
     /**
      * The attributes that should be hidden for serialization.
@@ -44,5 +48,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function guru(): HasOne
+    {
+        return $this->hasOne(Guru::class,'nip','nip');
     }
 }
