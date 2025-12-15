@@ -6,11 +6,10 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css', 
+                'resources/css/app.css',
                 'resources/js/app.js',
-                // TAMBAHKAN DUA BARIS INI:
-                'resources/css/auth.css',
-                'resources/js/auth.js',
+                'resources/css/login.css',
+                'resources/js/login.js',
             ],
             refresh: true,
         }),

@@ -2,43 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Siswa;
+use App\Models\Pembimbing;
+use App\Models\Dudi;
+use App\Models\Jurusan;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('dashboard-pkl');
-    }
+        $jurusanList = Jurusan::pluck('jurusan');
+        $jurusanData = [];
 
-    public function cetakPenjajakan()
-    {
-        return view('cetak-surat-penjajakan');
-    }
+        foreach ($jurusanList as $jurusan) {
+            $jurusanData[$jurusan] = [
+                'Sedang' => Siswa::whereHas('jurusan', fn($q) => $q->where('jurusan', $jurusan))
+                    ->where('status', 'Sedang')->count(),
 
-    public function cetakPenempatan()
-    {
-        return view('cetak-surat-penempatan');
-    }
+                'Menunggu' => Siswa::whereHas('jurusan', fn($q) => $q->where('jurusan', $jurusan))
+                    ->where('status', 'Menunggu')->count(),
 
-    public function prosesCetakPenjajakan(Request $request)
-    {
-        $data = $request->all();
+                'Selesai' => Siswa::whereHas('jurusan', fn($q) => $q->where('jurusan', $jurusan))
+                    ->where('status', 'Selesai')->count(),
+            ];
+        }
 
-        // Generate PDF using DomPDF
-        $pdf = Pdf::loadView('surat-penjajakan-template', $data);
 
-        return $pdf->download('surat-penjajakan.pdf');
-    }
+        $latestSiswa = Siswa::latest()->take(4)->get();
+        $latestDudi = Dudi::latest()->take(4)->get();
 
-    public function prosesCetakPenempatan(Request $request)
-    {
-        $data = $request->all();
-
-        // Generate PDF using DomPDF
-        $pdf = Pdf::loadView('surat-penempatan-template', $data);
-
-        return $pdf->download('surat-penempatan.pdf');
+        return view('dashboard.dashboard', [
+            'siswaCount' => Siswa::count(),
+            'pembimbingCount' => Pembimbing::count(),
+            'dudiCount' => Dudi::count(),
+            'jurusanData' => $jurusanData,
+            'latestSiswa' => $latestSiswa,
+            'latestDudi' => $latestDudi,
+        ]);
     }
 }
