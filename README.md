@@ -66,8 +66,6 @@ Instal dependensi *frontend* (JavaScript/Vite) menggunakan **NPM/Yarn**:
 
 ```bash
 npm install
-# atau
-# yarn install
 ```
 
 #### 3\. Konfigurasi Lingkungan (`.env`)
@@ -87,12 +85,12 @@ cp .env.example .env
 Buka file `.env` dan sesuaikan pengaturan koneksi database PostgreSQL Anda:
 
 ```dotenv
-DB_CONNECTION=pgsql
+DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
-DB_PORT=5432
+DB_PORT=3306
 DB_DATABASE=administrasi_pkl # Ganti sesuai nama database Anda
-DB_USERNAME=postgres         # Ganti sesuai username database Anda
-DB_PASSWORD=YOUR_PASSWORD    # Ganti sesuai password database Anda
+DB_USERNAME=root         # Ganti sesuai username database Anda
+DB_PASSWORD=    # Ganti sesuai password database Anda
 ```
 
 #### 5\. Generate Application Key
@@ -109,9 +107,6 @@ Jalankan migrasi untuk membuat tabel database dan *seeder* (jika ada) untuk meng
 
 ```bash
 php artisan migrate
-
-# Opsional: Jika Anda memiliki seeder data awal
-# php artisan db:seed
 ```
 
 #### 7\. Menjalankan Aplikasi
@@ -132,8 +127,6 @@ Aplikasi Laravel memerlukan dua proses yang berjalan bersamaan: server backend (
 
     ```bash
     npm run dev
-    # atau
-    # yarn dev
     ```
 
     Ini akan mengompilasi CSS dan JS agar fitur frontend seperti Livewire/Vue/React (jika digunakan) dapat berfungsi.
