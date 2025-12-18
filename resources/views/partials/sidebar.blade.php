@@ -110,20 +110,11 @@
             </li>
 
             <li>
-                <a href="{{ route('dashboard') }}"
+                <a href="{{ route('surat.index') }}"
                     class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
-                    data-menu="penjajakan">
-                    <i class="fas fa-file-contract text-yellow-500 mr-3"></i>
-                    <span>Buat Surat Penjajakan</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="{{ route('dashboard') }}"
-                    class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
-                    data-menu="penempatan">
-                    <i class="fas fa-print text-red-500 mr-3"></i>
-                    <span>Buat Surat Penempatan</span>
+                    data-menu="surat">
+                    <i class="fas fa-envelope text-yellow-500 mr-3"></i>
+                    <span>Buat Surat</span>
                 </a>
             </li>
 
@@ -162,16 +153,14 @@
 
             if (currentPath.includes('/siswa') || currentPath.includes('/data-siswa')) {
                 activeMenu = 'siswa';
+            } else if (currentPath.includes('/surat')) {
+                activeMenu = 'surat';
             } else if (currentPath.includes('/dashboard') || currentPath === '/') {
                 activeMenu = 'dashboard';
             } else if (currentPath.includes('/pembimbing')) {
                 activeMenu = 'pembimbing';
             } else if (currentPath.includes('/perusahaan')) {
                 activeMenu = 'perusahaan';
-            } else if (currentPath.includes('/penjajakan')) {
-                activeMenu = 'penjajakan';
-            } else if (currentPath.includes('/penempatan')) {
-                activeMenu = 'penempatan';
             } else if (currentPath.includes('/pengaturan')) {
                 activeMenu = 'pengaturan';
             }
