@@ -71,7 +71,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ route('dashboard') }}"
+                    <a href="{{ route('siswa.index') }}"
                         class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100">
                         <i class="fas fa-user-graduate text-blue-500 mr-3"></i>
                         <span>Data Siswa PKL</span>
