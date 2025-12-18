@@ -17,3 +17,7 @@ Route::middleware('auth')->group(function () {
 Route::resource('siswa', SiswaController::class)
     ->middleware('auth');
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('siswa', SiswaController::class);
+});
