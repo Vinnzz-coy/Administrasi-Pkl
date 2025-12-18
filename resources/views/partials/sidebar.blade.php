@@ -109,35 +109,74 @@
                 </a>
             </li>
 
-            <li>
-                <a href="{{ route('dashboard') }}"
-                    class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
-                    data-menu="penjajakan">
-                    <i class="fas fa-file-contract text-yellow-500 mr-3"></i>
-                    <span>Buat Surat Penjajakan</span>
-                </a>
-            </li>
+        <!-- Menu Navigasi -->
+        <nav class="flex-1 p-4 overflow-y-auto">
+            <ul class="space-y-2">
 
-            <li>
-                <a href="{{ route('dashboard') }}"
-                    class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
-                    data-menu="penempatan">
-                    <i class="fas fa-print text-red-500 mr-3"></i>
-                    <span>Buat Surat Penempatan</span>
-                </a>
-            </li>
+                <li>
+                    <a href="{{ route('dashboard') }}"
+                        class="flex items-center py-3 px-4 rounded-lg active-menu">
+                        <i class="fas fa-tachometer-alt text-primary mr-3"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
 
-            <li class="pt-6">
-                <a href="{{ route('dashboard') }}"
-                    class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
-                    data-menu="pengaturan">
-                    <i class="fas fa-cog text-gray-500 mr-3"></i>
-                    <span>Pengaturan</span>
-                </a>
-            </li>
+                <li>
+                    <a href="{{ route('siswa.index') }}"
+                        class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-user-graduate text-blue-500 mr-3"></i>
+                        <span>Data Siswa PKL</span>
+                    </a>
+                </li>
 
-        </ul>
-    </nav>
+                <li>
+                    <a href="{{ route('dashboard') }}"
+                        class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-chalkboard-teacher text-green-500 mr-3"></i>
+                        <span>Data Pembimbing</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('dashboard') }}"
+                        class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-building text-purple-500 mr-3"></i>
+                        <span>Data Perusahaan</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('dashboard') }}"
+                        class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-file-contract text-yellow-500 mr-3"></i>
+                        <span>Buat Surat Penjajakan</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('dashboard') }}"
+                        class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-print text-red-500 mr-3"></i>
+                        <span>Cetak Surat Penempatan</span>
+                    </a>
+                </li>
+
+                <li class="pt-6">
+                    <a href="{{ route('dashboard') }}"
+                        class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-cog text-gray-500 mr-3"></i>
+                        <span>Pengaturan</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+
+        <!-- Footer -->
+        <div class="p-4 border-t text-center text-gray-500 text-sm">
+            <p>© 2025 SMK Negeri 1 Wonosobo</p>
+            <p class="text-xs mt-1">Sistem PKL v1.0</p>
+        </div>
 
     <!-- Footer -->
     <div class="p-4 border-t text-center text-gray-500 text-sm">
