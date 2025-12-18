@@ -100,9 +100,30 @@
         <!-- KENDARAAN -->
         <div>
             <label class="font-medium">Kendaraan</label>
-            <input type="text" name="kendaraan"
-                   value="{{ old('kendaraan', $siswa->kendaraan) }}"
-                   class="w-full border rounded-lg px-3 py-2">
+
+            <select
+                name="kendaraan"
+                class="w-full border rounded-lg px-3 py-2 bg-white text-gray-800"
+                required>
+
+                <option value=""
+                    style="background-color:#ffffff; color:#9ca3af;"
+                    @selected(old('kendaraan', $siswa->kendaraan) == '')>
+                    -- Pilih --
+                </option>
+
+                <option value="pribadi"
+                    style="background-color:#ffffff; color:#1f2937;"
+                    @selected(old('kendaraan', $siswa->kendaraan) == 'pribadi')>
+                    Kendaraan Pribadi
+                </option>
+
+                <option value="umum"
+                    style="background-color:#ffffff; color:#1f2937;"
+                    @selected(old('kendaraan', $siswa->kendaraan) == 'umum')>
+                    Kendaraan Umum
+                </option>
+            </select>
         </div>
 
         <!-- BUTTON -->
