@@ -23,7 +23,7 @@ class Pembimbing extends Model
 
     public function siswas()
     {
-        return $this->hasMany(Siswa::class, 'id_pembimbing');
+        return $this->hasMany(Siswa::class, 'id_pembimbing','id_pembimbing');
     }
 
     public function user()
