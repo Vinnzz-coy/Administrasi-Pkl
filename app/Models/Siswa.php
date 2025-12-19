@@ -16,7 +16,9 @@ class Siswa extends Model
         'nama',
         'alamat',
         'jenis_kelamin',
-        'jurusan',
+        'id_jurusan',
+        'id_pembimbing',
+        'id_dudi',
         'kelas',
         'kendaraan',
     ];

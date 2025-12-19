@@ -67,6 +67,9 @@ Instal dependensi *frontend* (JavaScript/Vite) menggunakan **NPM/Yarn**:
 ```bash
 npm install
 ```
+```bash
+npm run build
+```
 
 #### 3\. Konfigurasi Lingkungan (`.env`)
 

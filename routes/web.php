@@ -3,10 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\DudiController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DataPembimbingController;
-use App\Http\Controllers\DudiControllerr;
+use App\Http\Controllers\SiswaController;
 
 
 Route::get('/', function () {
@@ -58,4 +55,10 @@ Route::get('/nama-perusahaan', [DudiController::class, 'index'])
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::resource('siswa', SiswaController::class)
+    ->middleware('auth');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('siswa', SiswaController::class);
 });
