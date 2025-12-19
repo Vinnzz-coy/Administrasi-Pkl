@@ -38,7 +38,7 @@
 
             <!-- Menu Profile -->
             <div class="mt-4 hidden animate-slide-down" id="profile-menu">
-                <a href="{{ route('dashboard') }}"
+                <a href="{{ route('profile.edit') }}"
                     class="block py-2 px-4 rounded-lg hover:bg-gray-100 text-gray-700 transition-colors">
                     <i class="fas fa-user-circle mr-3 text-primary"></i> Profil Saya
                 </a>
@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        <!-- Menu Navigasi -->
+         <!-- Menu Navigasi -->
         <nav class="flex-1 p-4 overflow-y-auto">
             <ul class="space-y-2">
 
@@ -79,7 +79,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ route('dashboard') }}"
+                    <a href="{{ route('pembimbing.index') }}"
                         class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100">
                         <i class="fas fa-chalkboard-teacher text-green-500 mr-3"></i>
                         <span>Data Pembimbing</span>
@@ -87,7 +87,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ route('dashboard') }}"
+                    <a href="{{ route('nama_perusahaan.index') }}"
                         class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100">
                         <i class="fas fa-building text-purple-500 mr-3"></i>
                         <span>Data Perusahaan</span>
