@@ -1,22 +1,64 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\SiswaController;
-
+use App\Http\Controllers\{
+    DashboardController,
+    SiswaController,
+    LoginController,
+    JurusanController,
+    PembimbingController,
+    DudiController
+};
 
 Route::redirect('/', '/dashboard');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
-
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
+
+    // Tambah siswa (semua role)
+    Route::get('/siswa/create', [SiswaController::class, 'create'])
+        ->name('siswa.create');
+
+    Route::post('/siswa', [SiswaController::class, 'store'])
+        ->name('siswa.store');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::resource('siswa', SiswaController::class);
+Route::middleware(['auth', 'role:super_admin,admin_jurusan'])->group(function () {
+
+    // SISWA
+    Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
+    Route::get('/siswa/{siswa}', [SiswaController::class, 'show'])->name('siswa.show');
+    Route::get('/siswa/{siswa}/edit', [SiswaController::class, 'edit'])->name('siswa.edit');
+    Route::put('/siswa/{siswa}', [SiswaController::class, 'update'])->name('siswa.update');
+    Route::delete('/siswa/{siswa}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
+
+    // PEMBIMBING
+    Route::get('/pembimbing', [PembimbingController::class, 'index'])->name('pembimbing.index');
+    Route::get('/pembimbing/create', [PembimbingController::class, 'create'])->name('pembimbing.create');
+    Route::post('/pembimbing', [PembimbingController::class, 'store'])->name('pembimbing.store');
+    Route::get('/pembimbing/{pembimbing}', [PembimbingController::class, 'show'])->name('pembimbing.show');
+    Route::get('/pembimbing/{pembimbing}/edit', [PembimbingController::class, 'edit'])->name('pembimbing.edit');
+    Route::put('/pembimbing/{pembimbing}', [PembimbingController::class, 'update'])->name('pembimbing.update');
+    Route::delete('/pembimbing/{pembimbing}', [PembimbingController::class, 'destroy'])->name('pembimbing.destroy');
+});
+
+Route::middleware(['auth', 'role:super_admin'])->group(function () {
+    Route::get('/jurusan', [JurusanController::class, 'index'])->name('jurusan.index');
+});
+
+Route::middleware(['auth', 'role:super_admin,admin_jurusan'])->group(function () {
+    Route::get('/jurusan/{jurusan}', [JurusanController::class, 'show'])->name('jurusan.show');
+    Route::get('/jurusan/{jurusan}/edit', [JurusanController::class, 'edit'])->name('jurusan.edit');
+    Route::put('/jurusan/{jurusan}', [JurusanController::class, 'update'])->name('jurusan.update');
+});
+
+
+Route::middleware(['auth', 'role:super_admin,admin_jurusan'])->group(function () {
+    Route::resource('dudi', DudiController::class);
 });

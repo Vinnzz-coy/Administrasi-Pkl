@@ -1,3 +1,7 @@
+@php
+    $role = auth()->user()->role;
+@endphp
+
 <div class="h-full flex flex-col">
 
     <!-- Close button untuk mobile -->
@@ -39,8 +43,8 @@
                 <h3 class="font-semibold text-dark">
                     {{ auth()->user()->name }}
                 </h3>
-                <p class="text-gray-500 text-sm">
-                    NIP. {{ auth()->user()->nip }}
+                <p class="text-sm text-gray-500">
+                    {{ ucfirst(auth()->user()->role) }}
                 </p>
             </div>
             <i class="fas fa-chevron-down text-gray-400 ml-auto transition-transform duration-300"
@@ -82,6 +86,7 @@
                 </a>
             </li>
 
+            @if ($role === 'admin_jurusan' || $role === 'super_admin')
             <li>
                 <a href="{{ route('siswa.index') }}"
                 class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
@@ -90,51 +95,75 @@
                     <span>Data Siswa PKL</span>
                 </a>
             </li>
+            @endif
 
+            @if ($role === 'admin_jurusan' || $role === 'super_admin')
             <li>
-                <a href="{{ route('dashboard') }}"
-                    class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
-                    data-menu="pembimbing">
+                <a href="{{ route('pembimbing.index') }}"
+                class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
+                data-menu="pembimbing">
                     <i class="fas fa-chalkboard-teacher text-green-500 mr-3"></i>
                     <span>Data Pembimbing</span>
                 </a>
             </li>
+            @endif
 
+            @if ($role === 'admin_jurusan' || $role === 'super_admin')
             <li>
-                <a href="{{ route('dashboard') }}"
-                    class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
-                    data-menu="perusahaan">
+                <a href="{{ route('dudi.index') }}"
+                class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
+                data-menu="perusahaan">
                     <i class="fas fa-building text-purple-500 mr-3"></i>
-                    <span>Data Perusahaan</span>
+                    <span>Data DUDI</span>
+                </a>
+
+            </li>
+            @endif
+
+            @if ($role === 'admin_jurusan')
+            <li>
+                <a href="{{ route('jurusan.show', auth()->user()->jurusan_id) }}"
+                class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
+                data-menu="jurusan">
+                    <i class="fas fa-layer-group text-indigo-500 mr-3"></i>
+                    <span>Jurusan</span>
                 </a>
             </li>
+            @endif
 
+            @if ($role === 'super_admin')
+            <li>
+                <a href="{{ route('jurusan.index') }}"
+                class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
+                data-menu="jurusan">
+                    <i class="fas fa-layer-group text-indigo-500 mr-3"></i>
+                    <span>Jurusan</span>
+                </a>
+            </li>
+            @endif
+
+
+            @if ($role === 'admin_jurusan' || $role === 'super_admin')
             <li>
                 <a href="{{ route('dashboard') }}"
-                    class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
-                    data-menu="penjajakan">
+                class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
+                data-menu="surat">
                     <i class="fas fa-file-contract text-yellow-500 mr-3"></i>
-                    <span>Buat Surat Penjajakan</span>
+                    <span>Buat Surat</span>
                 </a>
             </li>
+            @endif
 
-            <li>
-                <a href="{{ route('dashboard') }}"
-                    class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
-                    data-menu="penempatan">
-                    <i class="fas fa-print text-red-500 mr-3"></i>
-                    <span>Buat Surat Penempatan</span>
-                </a>
-            </li>
-
+            @if ($role === 'super_admin')
             <li class="pt-6">
                 <a href="{{ route('dashboard') }}"
-                    class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
-                    data-menu="pengaturan">
+                class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors nav-menu-item"
+                data-menu="pengaturan">
                     <i class="fas fa-cog text-gray-500 mr-3"></i>
                     <span>Pengaturan</span>
                 </a>
             </li>
+            @endif
 
         </ul>
     </nav>

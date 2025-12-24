@@ -3,74 +3,127 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pembimbing;
+use App\Models\Dudi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PembimbingController extends Controller
 {
-    // Tampilkan semua data
-    public function index()
+    public function index(Request $request)
     {
-        $pembimbings = Pembimbing::all();
-        return view('pembimbing.index', compact('pembimbings'));
+        $pembimbing = Pembimbing::with('dudis')
+            ->when($request->search, function ($q) use ($request) {
+                $q->where('nama', 'like', '%' . $request->search . '%')
+                    ->orWhere('nip', 'like', '%' . $request->search . '%');
+            })
+            ->orderBy('nama')
+            ->paginate(10);
+
+        return view('pembimbing.index', compact('pembimbing'));
     }
 
-    // Tampilkan form untuk membuat data baru
     public function create()
     {
-        return view('pembimbing.create');
+        $dudis = Dudi::orderBy('nama')->get();
+
+        return view('pembimbing.create', compact('dudis'));
     }
 
-    // Simpan data baru ke database
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'nama' => 'required|string|max:255',
             'nip' => 'required|string|max:255|unique:pembimbing,nip',
+            'id_jurusan' => 'nullable|exists:jurusan,id_jurusan',
             'pangkat' => 'nullable|string|max:255',
             'golongan' => 'nullable|string|max:255',
             'jabatan' => 'nullable|string|max:255',
             'jumlah_jam_mengajar' => 'nullable|integer|min:0',
+            'no_hp' => 'nullable|string|max:20',
+            'foto' => 'nullable|image|max:2048',
+
+            // DUDI
+            'dudi_ids' => 'required|array',
+            'dudi_ids.*' => 'exists:dudi,id_dudi',
         ]);
 
-        Pembimbing::create($request->all());
+        if ($request->hasFile('foto')) {
+            $data['foto'] = $request->file('foto')->store('pembimbing', 'public');
+        }
 
-        return redirect()->route('pembimbing.index')->with('success', 'Data pembimbing berhasil ditambahkan.');
+        $pembimbing = Pembimbing::create($data);
+
+        // SIMPAN RELASI MANY TO MANY
+        $pembimbing->dudis()->sync($request->dudi_ids);
+
+        return redirect()
+            ->route('pembimbing.index')
+            ->with('success', 'Data pembimbing berhasil ditambahkan');
     }
 
-    // Tampilkan detail data
     public function show(Pembimbing $pembimbing)
     {
+        $pembimbing->load('dudis');
+
         return view('pembimbing.show', compact('pembimbing'));
     }
 
-    // Tampilkan form edit
     public function edit(Pembimbing $pembimbing)
     {
-        return view('pembimbing.edit', compact('pembimbing'));
+        $dudis = Dudi::orderBy('nama')->get();
+        $selectedDudi = $pembimbing->dudis->pluck('id_dudi')->toArray();
+
+        return view('pembimbing.edit', compact('pembimbing', 'dudis', 'selectedDudi'));
     }
 
-    // Update data
     public function update(Request $request, Pembimbing $pembimbing)
     {
-        $request->validate([
+        $data = $request->validate([
             'nama' => 'required|string|max:255',
             'nip' => 'required|string|max:255|unique:pembimbing,nip,' . $pembimbing->id_pembimbing . ',id_pembimbing',
+            'id_jurusan' => 'nullable|exists:jurusan,id_jurusan',
             'pangkat' => 'nullable|string|max:255',
             'golongan' => 'nullable|string|max:255',
             'jabatan' => 'nullable|string|max:255',
             'jumlah_jam_mengajar' => 'nullable|integer|min:0',
+            'no_hp' => 'nullable|string|max:20',
+            'foto' => 'nullable|image|max:2048',
+
+            // DUDI
+            'dudi_ids' => 'required|array',
+            'dudi_ids.*' => 'exists:dudi,id_dudi',
         ]);
 
-        $pembimbing->update($request->all());
+        if ($request->hasFile('foto')) {
+            if ($pembimbing->foto) {
+                Storage::disk('public')->delete($pembimbing->foto);
+            }
+            $data['foto'] = $request->file('foto')->store('pembimbing', 'public');
+        }
 
-        return redirect()->route('pembimbing.index')->with('success', 'Data pembimbing berhasil diupdate.');
+        $pembimbing->update($data);
+
+        // UPDATE RELASI
+        $pembimbing->dudis()->sync($request->dudi_ids);
+
+        return redirect()
+            ->route('pembimbing.index')
+            ->with('success', 'Data pembimbing berhasil diperbarui');
     }
 
-    // Hapus data
     public function destroy(Pembimbing $pembimbing)
     {
+        if ($pembimbing->foto) {
+            Storage::disk('public')->delete($pembimbing->foto);
+        }
+
+        // HAPUS RELASI PIVOT
+        $pembimbing->dudis()->detach();
+
         $pembimbing->delete();
 
-        return redirect()->route('pembimbing.index')->with('success', 'Data pembimbing berhasil dihapus.');
+        return redirect()
+            ->route('pembimbing.index')
+            ->with('success', 'Data pembimbing berhasil dihapus');
     }
 }

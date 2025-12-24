@@ -20,7 +20,6 @@ return new class extends Migration
 
             $table->string('kelas');
             $table->string('kendaraan')->nullable();
-            $table->enum('status', ['Sedang', 'Menunggu', 'Selesai'])->default('Menunggu');
 
             $table->timestamps();
 

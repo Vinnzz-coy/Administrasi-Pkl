@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -20,39 +20,55 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'nip' => ['required', 'string', 'min:8'],
-            'password' => ['required', 'string', 'min:6'],
+            'login'    => 'required|string',
+            'password' => 'required|string|min:6',
         ], [
-            'nip.required' => 'NIP wajib diisi.',
+            'login.required' => 'Username atau NIS wajib diisi.',
             'password.required' => 'Password wajib diisi.',
-            'password.min' => 'Password minimal 6 karakter.',
         ]);
 
-        $credentials = $request->only('nip', 'password');
+        $loginInput = $request->login;
 
-        if (!Auth::attempt($credentials, $request->boolean('remember'))) {
-            throw ValidationException::withMessages([
-                'nip' => ['NIP atau Password salah.'],
-            ]);
+        // Cari user: admin pakai username, siswa pakai NIS
+        $user = User::where('username', $loginInput)
+            ->orWhere('nis', $loginInput)
+            ->first();
+
+        if (!$user) {
+            return back()->with('error', 'Akun tidak ditemukan.');
+        }
+
+        // Tentukan kredensial berdasarkan role
+        if ($user->role === 'siswa') {
+            $credentials = [
+                'nis'      => $loginInput,
+                'password' => $request->password,
+            ];
+        } else {
+            $credentials = [
+                'username' => $loginInput,
+                'password' => $request->password,
+            ];
+        }
+
+        if (!Auth::attempt($credentials)) {
+            return back()->with('error', 'Password salah.');
         }
 
         $request->session()->regenerate();
 
-        // INI KUNCI UTAMA
-        if ($request->expectsJson()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Login berhasil',
-                'redirect' => route('dashboard'),
-            ]);
+        // Redirect sesuai role
+        if ($user->role === 'siswa') {
+            return redirect()->route('siswa.create');
         }
 
-        return redirect()->intended(route('dashboard'));
+        return redirect()->route('dashboard');
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

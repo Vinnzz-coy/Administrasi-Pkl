@@ -15,19 +15,6 @@ class DashboardController extends Controller
         $jurusanList = Jurusan::pluck('jurusan');
         $jurusanData = [];
 
-        foreach ($jurusanList as $jurusan) {
-            $jurusanData[$jurusan] = [
-                'Sedang' => Siswa::whereHas('jurusan', fn($q) => $q->where('jurusan', $jurusan))
-                    ->where('status', 'Sedang')->count(),
-
-                'Menunggu' => Siswa::whereHas('jurusan', fn($q) => $q->where('jurusan', $jurusan))
-                    ->where('status', 'Menunggu')->count(),
-
-                'Selesai' => Siswa::whereHas('jurusan', fn($q) => $q->where('jurusan', $jurusan))
-                    ->where('status', 'Selesai')->count(),
-            ];
-        }
-
 
         $latestSiswa = Siswa::latest()->take(4)->get();
         $latestDudi = Dudi::latest()->take(4)->get();

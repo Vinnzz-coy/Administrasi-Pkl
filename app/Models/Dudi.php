@@ -11,20 +11,43 @@ class Dudi extends Model
 
     protected $table = 'dudi';
     protected $primaryKey = 'id_dudi';
-    public $incrementing = true;
-    protected $keyType = 'int';
 
     protected $fillable = [
         'nama',
         'alamat',
         'pimpinan',
-        'pembimbing',
+        'pembimbing_dudi',
         'jabatan',
         'daya_tampung',
     ];
 
     public function siswas()
     {
-        return $this->hasMany(Siswa::class, 'id_dudi');
+        return $this->hasMany(Siswa::class, 'id_dudi', 'id_dudi');
+    }
+
+    // RELASI YANG KURANG
+    public function pembimbings()
+    {
+        return $this->belongsToMany(
+            Pembimbing::class,
+            'pembimbing_dudi',
+            'id_dudi',
+            'id_pembimbing'
+        );
+    }
+
+    public function isPenuh(): bool
+    {
+        if ($this->relationLoaded('siswas')) {
+            return $this->siswas->count() >= $this->daya_tampung;
+        }
+
+        return $this->siswas()->count() >= $this->daya_tampung;
+    }
+
+    public function sisaKuota(): int
+    {
+        return max(0, $this->daya_tampung - $this->siswas()->count());
     }
 }

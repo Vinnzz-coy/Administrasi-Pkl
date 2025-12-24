@@ -15,15 +15,22 @@ return new class extends Migration
             $table->id('id_pembimbing');
             $table->string('nama');
             $table->string('nip')->unique();
+
             $table->string('pangkat')->nullable();
             $table->string('golongan')->nullable();
             $table->string('jabatan')->nullable();
             $table->integer('jumlah_jam_mengajar')->default(0);
 
+            $table->string('no_hp', 20)->nullable();
+            $table->string('foto')->nullable();
+
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('set null');
         });
     }
 

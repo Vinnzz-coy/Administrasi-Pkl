@@ -7,9 +7,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     protected $fillable = [
-        'nip',
+        'username',
+        'nis',
         'name',
         'password',
+        'role',
+        'jurusan_id',
     ];
 
     protected $hidden = [
@@ -17,8 +20,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function pembimbing()
+    public function jurusan()
     {
-        return $this->hasOne(Pembimbing::class);
+        return $this->belongsTo(Jurusan::class, 'jurusan_id', 'id_jurusan');
     }
 }
