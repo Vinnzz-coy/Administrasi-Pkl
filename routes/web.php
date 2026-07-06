@@ -12,7 +12,9 @@ use App\Http\Controllers\{
     DudiController
 };
 
-Route::redirect('/', '/dashboard');
+Route::get('/', function () {
+    return auth()->check() ? redirect('/dashboard') : view('landing');
+})->name('landing');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
